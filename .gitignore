@@ -4,3 +4,8 @@ node_modules
 
 .vercel
 .env*
+
+# Vercel CLI가 Supabase 설치 때 추가한 에이전트 스킬(사이트와 무관)
+.agents
+.claude
+skills-lock.json
