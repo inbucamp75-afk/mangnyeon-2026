@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>2026 팀 망년회</title>
+<meta name="description" content="2026 팀 망년회 날짜와 장소를 함께 정해요. 12월 11일(금) 오후 4시까지 참석 여부를 남겨 주세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fir: #12302a;        /* 밤의 전나무 숲 */
+    --fir-2: #1d4439;
+    --fir-3: #2b5a4b;
+    --snow: #f4f7f8;       /* 차가운 눈빛 */
+    --frost: #dfe8ea;
+    --ink: #1a2622;
+    --muted: #5a6a65;
+    --lamp: #f0b54a;       /* 창가 불빛 */
+    --holly: #a12a33;      /* 버튼 하나에만 */
+    --holly-dark: #861f28;
+    --serif: 'Gowun Batang', 'Nanum Myeongjo', serif;
+    --sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--snow); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.6; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--lamp); outline-offset: 3px; border-radius: 4px; }
+
+  /* 첫 화면: 눈 내리는 밤과 전나무 */
+  .night { position: relative; background: radial-gradient(120% 90% at 78% 20%, #1f4a3e 0%, var(--fir) 55%, #0d2420 100%); color: var(--snow); overflow: hidden; }
+  #snow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .night-inner { position: relative; max-width: 1080px; margin: 0 auto; padding: 72px 24px 150px; display: grid; grid-template-columns: 1.15fr 0.85fr; align-items: center; gap: 24px; }
+  .year { font-family: var(--serif); font-size: 17px; letter-spacing: 0.04em; color: var(--lamp); margin: 0 0 20px; }
+  h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(34px, 5.6vw, 60px); line-height: 1.22; letter-spacing: -0.01em; margin: 0 0 28px; word-break: keep-all; }
+  h1 .line2 { display: block; font-weight: 400; color: var(--frost); }
+  .deadline { margin: 0 0 32px; font-size: 18px; color: var(--frost); word-break: keep-all; }
+  .deadline strong { color: var(--snow); font-weight: 600; }
+  .btn { display: inline-block; font: 600 17px/1 var(--sans); padding: 18px 30px; border-radius: 999px; border: 0; background: var(--holly); color: #fff; text-decoration: none; cursor: pointer; box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 10px 30px -10px rgba(161,42,51,.8); }
+  .btn:hover { background: var(--holly-dark); }
+  .btn:disabled { background: #8c9995; box-shadow: none; cursor: not-allowed; }
+  .tree { width: 100%; max-width: 360px; justify-self: center; filter: drop-shadow(0 0 40px rgba(240,181,74,.18)); }
+  .tree .light { fill: var(--lamp); }
+  .drift { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: 110px; display: block; }
+
+  /* 눈 덮인 아래쪽 */
+  main { max-width: 1080px; margin: 0 auto; padding: 8px 24px 40px; }
+  section { padding: 48px 0; }
+  h2 { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 34px); line-height: 1.3; margin: 0 0 10px; word-break: keep-all; }
+  .lead { margin: 0 0 32px; color: var(--muted); max-width: 40em; word-break: keep-all; }
+
+  .tally { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0 0 36px; font-size: 16px; color: var(--muted); }
+  .tally b { font-family: var(--serif); font-size: 26px; color: var(--ink); margin-left: 6px; font-weight: 700; }
+
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .choices h3 { font-size: 15px; font-weight: 600; color: var(--muted); margin: 0 0 12px; }
+  .opt { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--frost); }
+  .opt li { padding: 18px 0; border-bottom: 1px solid var(--frost); display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px; }
+  .opt .what { font-family: var(--serif); font-size: 22px; word-break: keep-all; }
+  .opt .count { font-size: 16px; color: var(--muted); white-space: nowrap; }
+  .opt .count b { color: var(--ink); font-size: 18px; }
+  .opt .bar { grid-column: 1 / -1; height: 6px; border-radius: 3px; background: var(--frost); overflow: hidden; }
+  .opt .bar i { display: block; height: 100%; width: 0; background: var(--fir-3); border-radius: 3px; transition: width .5s ease; }
+  .opt .note { grid-column: 1 / -1; font-size: 15px; color: var(--muted); }
+  .empty { margin: 20px 0 0; color: var(--muted); }
+
+  /* 응답 폼 */
+  .form-wrap { background: #fff; border: 1px solid var(--frost); border-radius: 20px; padding: 36px clamp(20px, 4vw, 44px); max-width: 680px; }
+  form { display: grid; gap: 28px; }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  legend, .label { display: block; font-weight: 600; margin: 0 0 10px; padding: 0; }
+  .hint { font-weight: 400; color: var(--muted); font-size: 15px; }
+  input[type=text], textarea { width: 100%; font: 17px/1.5 var(--sans); color: var(--ink); padding: 14px 16px; border: 1px solid #c9d5d6; border-radius: 12px; background: var(--snow); }
+  input[type=text]:focus, textarea:focus { outline: none; border-color: var(--fir-3); box-shadow: 0 0 0 3px rgba(43,90,75,.2); background: #fff; }
+  textarea { min-height: 96px; resize: vertical; }
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill { position: relative; }
+  .pill input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .pill span { display: inline-block; padding: 12px 20px; border: 1px solid #c9d5d6; border-radius: 999px; background: var(--snow); min-height: 48px; line-height: 22px; }
+  .pill input:checked + span { background: var(--fir); border-color: var(--fir); color: var(--snow); }
+  .pill input:focus-visible + span { outline: 3px solid var(--lamp); outline-offset: 2px; }
+  .checks { display: grid; gap: 4px; }
+  .check { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; cursor: pointer; }
+  .check input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--fir); flex: none; }
+  .other-input { margin: 4px 0 0 34px; width: calc(100% - 34px) !important; }
+  .consent { font-size: 15px; color: var(--muted); }
+  .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .msg { margin: 0; padding: 14px 16px; border-radius: 12px; font-size: 16px; }
+  .msg.ok { background: #e3efe9; color: #1d4439; }
+  .msg.err { background: #f8e4e5; color: #861f28; }
+  .closed { padding: 20px; border-radius: 12px; background: var(--frost); }
+
+  footer { border-top: 1px solid var(--frost); }
+  .foot { max-width: 1080px; margin: 0 auto; padding: 32px 24px 56px; color: var(--muted); font-size: 16px; display: grid; gap: 6px; }
+  .foot p { margin: 0; word-break: keep-all; }
+  .foot a { color: var(--ink); font-weight: 600; }
+
+  @media (max-width: 760px) {
+    .night-inner { grid-template-columns: 1fr; padding: 48px 20px 120px; }
+    .tree { order: -1; max-width: 170px; justify-self: start; margin-bottom: 8px; }
+    main { padding: 0 20px 32px; }
+    .choices { grid-template-columns: 1fr; gap: 32px; }
+    .btn { width: 100%; text-align: center; }
+    .form-wrap { border-radius: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .opt .bar i { transition: none; } }
+</style>
+</head>
+<body>
+
+<header class="night">
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <div class="night-inner">
+    <div>
+      <p class="year">2026 팀 망년회</p>
+      <h1>올해도 수고 많았어요.<span class="line2">언제, 어디서 만날까요?</span></h1>
+      <p class="deadline"><strong>12월 11일(금) 오후 4시</strong>까지<br>가능한 날짜와 장소를 골라 주세요.</p>
+      <a class="btn" href="#answer">참석 여부 남기기</a>
+    </div>
+    <svg class="tree" viewBox="0 0 300 380" role="img" aria-label="불이 켜진 크리스마스 트리">
+      <defs>
+        <radialGradient id="glow"><stop offset="0" stop-color="#f0b54a" stop-opacity=".9"/><stop offset="1" stop-color="#f0b54a" stop-opacity="0"/></radialGradient>
+      </defs>
+      <circle cx="150" cy="34" r="34" fill="url(#glow)"/>
+      <path d="M150 22l6.5 13.2 14.5 2.1-10.5 10.2 2.5 14.5L150 55.2l-13 6.8 2.5-14.5L129 37.3l14.5-2.1z" fill="#f0b54a"/>
+      <path d="M150 62 98 140h20l-40 64h24l-46 74h188l-46-74h24l-40-64h20z" fill="#2b5a4b"/>
+      <path d="M150 62 98 140h20l-40 64h24l-46 74h94z" fill="#1d4439"/>
+      <path d="M118 140c22 10 46 10 64 0M102 204c34 14 70 14 96 0M80 278c46 16 94 16 140 0" fill="none" stroke="#f4f7f8" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/>
+      <g class="light">
+        <circle cx="132" cy="112" r="4"/><circle cx="166" cy="124" r="4"/><circle cx="122" cy="176" r="4.5"/>
+        <circle cx="178" cy="168" r="4.5"/><circle cx="150" cy="190" r="4"/><circle cx="104" cy="246" r="5"/>
+        <circle cx="140" cy="236" r="4.5"/><circle cx="190" cy="242" r="5"/><circle cx="214" cy="262" r="4"/><circle cx="160" cy="262" r="4"/>
+      </g>
+      <rect x="136" y="278" width="28" height="34" fill="#4a3426"/>
+      <ellipse cx="150" cy="322" rx="120" ry="16" fill="#f4f7f8" opacity=".9"/>
+    </svg>
+  </div>
+  <svg class="drift" viewBox="0 0 1440 110" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 64c120-34 240-40 360-18s250 44 380 22 230-62 360-52 220 40 340 24v70H0z" fill="#f4f7f8"/>
+  </svg>
+</header>
+
+<main>
+  <section id="candidates" aria-labelledby="cand-title">
+    <h2 id="cand-title">후보와 지금까지 가능한 인원</h2>
+    <p class="lead">이름은 보이지 않고 숫자만 보여요. 불참한 사람은 날짜·장소 인원에 들어가지 않아요.</p>
+    <div class="tally" id="tally" aria-live="polite">
+      <span>참석<b data-a="참석">–</b></span><span>미정<b data-a="미정">–</b></span><span>불참<b data-a="불참">–</b></span>
+    </div>
+    <div class="choices">
+      <div>
+        <h3>날짜</h3>
+        <ul class="opt" id="date-list"></ul>
+      </div>
+      <div>
+        <h3>장소</h3>
+        <ul class="opt" id="place-list"></ul>
+      </div>
+    </div>
+    <p class="empty" id="empty" hidden>아직 남긴 사람이 없어요. 첫 번째로 남겨 주세요.</p>
+    <p class="empty" id="load-err" hidden>인원 수를 불러오지 못했어요. 새로고침해 보세요.</p>
+  </section>
+
+  <section id="answer" aria-labelledby="answer-title">
+    <h2 id="answer-title">참석 여부 남기기</h2>
+    <p class="lead">같은 이름으로 다시 남기면 마지막 답으로 바뀌어요.</p>
+    <div class="form-wrap">
+      <div class="closed" id="closed" hidden>
+        투표가 마감됐어요. 바뀐 게 있으면 간사(<a href="tel:000-1234">000-1234</a>)에게 연락해 주세요.
+      </div>
+      <form id="rsvp" novalidate>
+        <div>
+          <label class="label" for="name">이름</label>
+          <input type="text" id="name" name="name" maxlength="30" autocomplete="name" required>
+        </div>
+
+        <fieldset>
+          <legend>참석할 수 있나요?</legend>
+          <div class="pills">
+            <label class="pill"><input type="radio" name="attendance" value="참석" required><span>참석</span></label>
+            <label class="pill"><input type="radio" name="attendance" value="미정"><span>미정</span></label>
+            <label class="pill"><input type="radio" name="attendance" value="불참"><span>불참</span></label>
+          </div>
+        </fieldset>
+
+        <div id="when-where">
+          <fieldset>
+            <legend>가능한 날짜 <span class="hint">여러 개 골라도 돼요</span></legend>
+            <div class="checks" id="date-checks"></div>
+          </fieldset>
+          <fieldset style="margin-top:24px">
+            <legend>가능한 장소 <span class="hint">여러 개 골라도 돼요</span></legend>
+            <div class="checks" id="place-checks"></div>
+            <input type="text" class="other-input" id="place-other" maxlength="40" placeholder="가고 싶은 장소" aria-label="기타 장소 이름" hidden>
+          </fieldset>
+        </div>
+
+        <div>
+          <label class="label" for="message">한마디 <span class="hint">못 먹는 음식이나 하고 싶은 말</span></label>
+          <textarea id="message" name="message" maxlength="300"></textarea>
+        </div>
+
+        <div class="trap" aria-hidden="true">
+          <label>웹사이트<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <label class="check consent">
+          <input type="checkbox" id="consent" required>
+          <span>(필수) 이름과 답은 망년회 날짜·장소를 정하는 데만 써요. 행사가 끝난 뒤 정리는 간사가 해요.</span>
+        </label>
+
+        <p class="msg" id="form-msg" role="status" hidden></p>
+        <div><button class="btn" type="submit" id="submit">참석 여부 남기기</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot">
+    <p>회비는 없어요. 회사에서 부담해요.</p>
+    <p>마감 후 바뀐 게 생기면 간사에게 연락해 주세요. <a href="tel:000-1234">000-1234</a></p>
+  </div>
+</footer>
+
+<script>
+  // api/_shared.js의 후보와 같은 목록
+  const DATES = { d1218: '12/18(금) 저녁', d1222: '12/22(화) 저녁' };
+  const PLACES = { wolfgang: '울프강스테이크하우스', jojoen: '조조엔', other: '기타' };
+  const DEADLINE = Date.parse('2026-12-11T16:00:00+09:00');
+  const $ = (s) => document.querySelector(s);
+
+  // 후보 목록과 체크박스 그리기
+  const optItem = (key, label) => `<li data-k="${key}"><span class="what">${label}</span><span class="count">가능 <b>–</b>명</span><span class="bar"><i></i></span></li>`;
+  $('#date-list').innerHTML = Object.entries(DATES).map(([k, v]) => optItem(k, v)).join('');
+  $('#place-list').innerHTML = Object.entries(PLACES).map(([k, v]) => optItem(k, v === '기타' ? '기타 (직접 적은 장소)' : v)).join('');
+  const check = (group, key, label) => `<label class="check"><input type="checkbox" name="${group}" value="${key}"><span>${label}</span></label>`;
+  $('#date-checks').innerHTML = Object.entries(DATES).map(([k, v]) => check('dates', k, v)).join('');
+  $('#place-checks').innerHTML = Object.entries(PLACES).map(([k, v]) => check('places', k, v === '기타' ? '기타 (직접 적기)' : v)).join('');
+
+  // 인원 수(숫자만)
+  async function loadTally() {
+    try {
+      const r = await fetch('/api/rsvp', { cache: 'no-store' });
+      const t = await r.json();
+      if (!r.ok) throw new Error(t.error);
+      $('#load-err').hidden = true;
+      document.querySelectorAll('#tally b').forEach((b) => { b.textContent = t.attendance[b.dataset.a] ?? 0; });
+      const going = t.total - (t.attendance['불참'] || 0);
+      const paint = (list, counts) => list.querySelectorAll('li').forEach((li) => {
+        const n = counts[li.dataset.k] || 0;
+        li.querySelector('.count b').textContent = n;
+        li.querySelector('.bar i').style.width = going ? `${Math.round((n / going) * 100)}%` : '0';
+      });
+      paint($('#date-list'), t.dates);
+      paint($('#place-list'), t.places);
+      $('#empty').hidden = t.total > 0;
+      if (t.closed) setClosed();
+    } catch {
+      $('#load-err').hidden = false;
+    }
+  }
+
+  function setClosed() {
+    $('#closed').hidden = false;
+    $('#rsvp').hidden = true;
+  }
+  if (Date.now() >= DEADLINE) setClosed();
+
+  // 불참이면 날짜·장소를 숨긴다
+  const form = $('#rsvp');
+  const syncAttendance = () => {
+    const a = form.attendance.value;
+    $('#when-where').hidden = a === '불참';
+  };
+  form.addEventListener('change', (e) => {
+    if (e.target.name === 'attendance') syncAttendance();
+    if (e.target.name === 'places' && e.target.value === 'other') {
+      $('#place-other').hidden = !e.target.checked;
+      if (e.target.checked) $('#place-other').focus();
+    }
+  });
+
+  // 이 기기에서 지난번에 남긴 답 채우기
+  const SAVE = 'mangnyeon2026';
+  try {
+    const s = JSON.parse(localStorage.getItem(SAVE) || 'null');
+    if (s) {
+      form.name.value = s.name || '';
+      if (s.attendance) form.querySelector(`[name=attendance][value="${s.attendance}"]`).checked = true;
+      form.querySelectorAll('[name=dates]').forEach((c) => { c.checked = (s.dates || []).includes(c.value); });
+      form.querySelectorAll('[name=places]').forEach((c) => { c.checked = (s.places || []).includes(c.value); });
+      $('#place-other').value = s.place_other || '';
+      $('#place-other').hidden = !(s.places || []).includes('other');
+      form.message.value = s.message || '';
+      syncAttendance();
+    }
+  } catch {}
+
+  const showMsg = (text, ok) => {
+    const m = $('#form-msg');
+    m.textContent = text;
+    m.className = `msg ${ok ? 'ok' : 'err'}`;
+    m.hidden = false;
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const values = (n) => [...form.querySelectorAll(`[name=${n}]:checked`)].map((c) => c.value);
+    const body = {
+      name: form.name.value,
+      attendance: form.attendance.value,
+      dates: values('dates'),
+      places: values('places'),
+      place_other: $('#place-other').value,
+      message: form.message.value,
+      consent: $('#consent').checked,
+      website: form.website.value,
+    };
+    if (!body.name.trim()) { showMsg('이름을 적어 주세요.'); form.name.focus(); return; }
+    if (!body.attendance) { showMsg('참석, 불참, 미정 중 하나를 골라 주세요.'); return; }
+    if (body.attendance === '참석' && !body.dates.length) { showMsg('참석이면 가능한 날짜를 하나 이상 골라 주세요.'); return; }
+    if (body.places.includes('other') && !body.place_other.trim()) { showMsg('기타 장소 이름을 적어 주세요.'); $('#place-other').focus(); return; }
+    if (!body.consent) { showMsg('개인정보 수집·이용에 동의해 주세요.'); return; }
+
+    const btn = $('#submit');
+    btn.disabled = true;
+    btn.textContent = '남기는 중…';
+    try {
+      const r = await fetch('/api/rsvp', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const out = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(out.error || '저장하지 못했어요. 잠시 뒤 다시 시도해 주세요.');
+      showMsg(`${body.name.trim()} 님의 답을 남겼어요. 바꾸고 싶으면 같은 이름으로 다시 남기면 돼요.`, true);
+      try { const { consent, website, ...keep } = body; localStorage.setItem(SAVE, JSON.stringify(keep)); } catch {}
+      loadTally();
+    } catch (err) {
+      showMsg(err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '참석 여부 남기기';
+    }
+  });
+
+  loadTally();
+
+  // 눈 내리기 — 첫 화면에만, 움직임 줄이기 설정이면 멈춘 눈
+  (() => {
+    const cv = $('#snow');
+    const ctx = cv.getContext('2d');
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w, h, flakes = [], raf;
+    const make = () => ({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 2.2 + 0.6, s: Math.random() * 0.5 + 0.25, d: Math.random() * Math.PI * 2 });
+    const size = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      w = cv.clientWidth; h = cv.clientHeight;
+      cv.width = w * dpr; cv.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      flakes = Array.from({ length: Math.round(w / 9) }, make);
+    };
+    const draw = () => {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = 'rgba(244,247,248,.85)';
+      for (const f of flakes) { ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2); ctx.fill(); }
+    };
+    const step = () => {
+      for (const f of flakes) {
+        f.d += 0.01; f.y += f.s * (f.r * 0.6 + 0.4); f.x += Math.sin(f.d) * 0.3;
+        if (f.y > h + 4) { f.y = -4; f.x = Math.random() * w; }
+      }
+      draw();
+      raf = requestAnimationFrame(step);
+    };
+    size();
+    addEventListener('resize', () => { cancelAnimationFrame(raf); size(); still ? draw() : step(); });
+    document.addEventListener('visibilitychange', () => { if (still) return; cancelAnimationFrame(raf); if (!document.hidden) step(); });
+    still ? draw() : step();
+  })();
+</script>
+</body>
+</html>
