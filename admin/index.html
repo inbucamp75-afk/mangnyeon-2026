@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>망년회 응답 관리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --fir: #12302a; --fir-3: #2b5a4b; --snow: #f4f7f8; --frost: #dfe8ea; --ink: #1a2622; --muted: #5a6a65; --holly: #a12a33;
+    --serif: 'Gowun Batang', serif; --sans: 'IBM Plex Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { margin: 0; background: var(--snow); color: var(--ink); font: 16px/1.55 var(--sans); }
+  :focus-visible { outline: 3px solid #f0b54a; outline-offset: 2px; }
+  .top { background: var(--fir); color: var(--snow); padding: 18px 20px; }
+  .top h1 { margin: 0; font: 700 20px/1.3 var(--serif); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 24px 20px 48px; }
+  input[type=password] { width: 100%; font: 17px var(--sans); padding: 14px 16px; border: 1px solid #c9d5d6; border-radius: 12px; }
+  button { font: 600 16px var(--sans); padding: 14px 20px; min-height: 48px; border-radius: 12px; border: 1px solid #c9d5d6; background: #fff; color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--fir); border-color: var(--fir); color: var(--snow); }
+  button[aria-pressed=true] { background: var(--fir); border-color: var(--fir); color: var(--snow); }
+  .login { max-width: 380px; display: grid; gap: 12px; margin-top: 24px; }
+  .err { color: var(--holly); margin: 0; }
+  .big { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 0 0 20px; }
+  .big span { color: var(--muted); }
+  .big b { font: 700 30px var(--serif); color: var(--ink); margin-left: 6px; }
+  .sum { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px; }
+  .box { background: #fff; border: 1px solid var(--frost); border-radius: 14px; padding: 16px; }
+  .box h2 { font-size: 15px; color: var(--muted); margin: 0 0 8px; font-weight: 600; }
+  .row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--frost); }
+  .row:first-of-type { border-top: 0; }
+  .row small { display: block; color: var(--muted); }
+  .tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .warn { color: var(--muted); font-size: 14px; margin: 0 0 16px; }
+  .cards { display: grid; gap: 10px; }
+  .card { background: #fff; border: 1px solid var(--frost); border-radius: 14px; padding: 14px 16px; }
+  .card .head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .card .name { font-weight: 600; font-size: 18px; }
+  .tag { font-size: 14px; padding: 2px 10px; border-radius: 999px; background: var(--frost); }
+  .tag.참석 { background: #d9ebe2; } .tag.불참 { background: #f3dfe0; }
+  .card dl { margin: 8px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; }
+  .card dt { color: var(--muted); }
+  .card dd { margin: 0; word-break: keep-all; overflow-wrap: anywhere; }
+  .when { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  @media (max-width: 640px) { .sum { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="top"><h1>망년회 응답 관리</h1></div>
+<div class="wrap">
+  <form class="login" id="login">
+    <label for="pw">관리자 비밀번호</label>
+    <input type="password" id="pw" autocomplete="current-password" required>
+    <button class="primary" type="submit">들어가기</button>
+    <p class="err" id="login-err" role="alert" hidden></p>
+  </form>
+
+  <div id="board" hidden>
+    <div class="big" id="big"></div>
+    <div class="sum">
+      <div class="box"><h2>날짜별 가능 인원</h2><div id="sum-dates"></div></div>
+      <div class="box"><h2>장소별 가능 인원</h2><div id="sum-places"></div></div>
+    </div>
+    <div class="tools" role="group" aria-label="참석 여부로 보기">
+      <button type="button" data-f="전체" aria-pressed="true">전체</button>
+      <button type="button" data-f="참석" aria-pressed="false">참석</button>
+      <button type="button" data-f="미정" aria-pressed="false">미정</button>
+      <button type="button" data-f="불참" aria-pressed="false">불참</button>
+      <button type="button" id="refresh">새로고침</button>
+      <button type="button" id="csv">CSV 내려받기</button>
+    </div>
+    <p class="warn">CSV에는 이름이 들어 있어요. 보관에 주의하세요.</p>
+    <div class="cards" id="cards"></div>
+    <p id="none" hidden>아직 남긴 사람이 없어요. 사이트 링크를 단톡방에 공유해 보세요.</p>
+  </div>
+</div>
+
+<script>
+  const DATES = { d1218: '12/18(금) 저녁', d1222: '12/22(화) 저녁' };
+  const PLACES = { wolfgang: '울프강스테이크하우스', jojoen: '조조엔', other: '기타' };
+  const $ = (s) => document.querySelector(s);
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const placeText = (r) => (r.places || []).map((p) => (p === 'other' ? `기타: ${r.place_other}` : PLACES[p])).join(', ');
+  const dateText = (r) => (r.dates || []).map((d) => DATES[d]).join(', ');
+  const fmt = (iso) => new Date(iso).toLocaleString('ko-KR', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  let rows = [], filter = '전체';
+
+  async function load() {
+    const pw = sessionStorage.getItem('adminpw');
+    if (!pw) return;
+    const r = await fetch('/api/admin', { headers: { 'x-admin-password': pw }, cache: 'no-store' });
+    const out = await r.json().catch(() => ({}));
+    if (r.status === 401) {
+      sessionStorage.removeItem('adminpw');
+      $('#board').hidden = true; $('#login').hidden = false;
+      $('#login-err').textContent = '비밀번호가 맞지 않아요.'; $('#login-err').hidden = false;
+      $('#pw').value = ''; $('#pw').focus();
+      return;
+    }
+    if (!r.ok) { $('#login-err').textContent = out.error || '불러오지 못했어요.'; $('#login-err').hidden = false; return; }
+    $('#login').hidden = true; $('#board').hidden = false;
+    rows = out.rows;
+    render(out.totals);
+  }
+
+  function render(t) {
+    $('#big').innerHTML = `<span>남긴 사람<b>${t.total}</b></span>` + ['참석', '미정', '불참'].map((a) => `<span>${a}<b>${t.attendance[a]}</b></span>`).join('');
+    const going = rows.filter((r) => r.attendance !== '불참');
+    const who = (test) => going.filter(test).map((r) => esc(r.name)).join(', ') || '없음';
+    $('#sum-dates').innerHTML = Object.entries(DATES).map(([k, v]) =>
+      `<div class="row"><div>${v}<small>${who((r) => (r.dates || []).includes(k))}</small></div><b>${t.dates[k]}명</b></div>`).join('');
+    $('#sum-places').innerHTML = Object.entries(PLACES).map(([k, v]) => {
+      const sub = k === 'other'
+        ? going.filter((r) => (r.places || []).includes('other')).map((r) => `${esc(r.place_other)} (${esc(r.name)})`).join(', ') || '없음'
+        : who((r) => (r.places || []).includes(k));
+      return `<div class="row"><div>${v}<small>${sub}</small></div><b>${t.places[k]}명</b></div>`;
+    }).join('');
+    renderCards();
+  }
+
+  function renderCards() {
+    const list = rows.filter((r) => filter === '전체' || r.attendance === filter);
+    $('#none').hidden = rows.length > 0;
+    $('#cards').innerHTML = list.map((r) => `
+      <div class="card">
+        <div class="head"><span class="name">${esc(r.name)}</span><span class="tag ${esc(r.attendance)}">${esc(r.attendance)}</span></div>
+        <dl>
+          ${r.attendance !== '불참' ? `<dt>날짜</dt><dd>${esc(dateText(r)) || '고르지 않음'}</dd><dt>장소</dt><dd>${esc(placeText(r)) || '고르지 않음'}</dd>` : ''}
+          ${r.message ? `<dt>한마디</dt><dd>${esc(r.message)}</dd>` : ''}
+        </dl>
+        <div class="when">${fmt(r.updated_at || r.created_at)}에 남김</div>
+      </div>`).join('');
+  }
+
+  $('#login').addEventListener('submit', (e) => {
+    e.preventDefault();
+    $('#login-err').hidden = true;
+    sessionStorage.setItem('adminpw', $('#pw').value);
+    load();
+  });
+  document.querySelectorAll('[data-f]').forEach((b) => b.addEventListener('click', () => {
+    filter = b.dataset.f;
+    document.querySelectorAll('[data-f]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    renderCards();
+  }));
+  $('#refresh').addEventListener('click', load);
+  $('#csv').addEventListener('click', () => {
+    const q = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const lines = [['이름', '참석 여부', '가능한 날짜', '가능한 장소', '한마디', '남긴 시간'].map(q).join(',')]
+      .concat(rows.map((r) => [r.name, r.attendance, dateText(r), placeText(r), r.message, new Date(r.updated_at || r.created_at).toLocaleString('ko-KR')].map(q).join(',')));
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `mangnyeon_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+  load();
+</script>
+</body>
+</html>
